@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "665809624755",
+    "project_id": "coinmessage-6b10a",
+    "storage_bucket": "coinmessage-6b10a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665809624755:android:89a80117a8b63a04d6dac6",
+        "android_client_info": {
+          "package_name": "com.example.coin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "665809624755-v4adcu1t1ck2ditdod7h39sldtn6m08g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBt3J3LxUCZt4WDsgLO0F5VBsgBFyimUSk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "665809624755-v4adcu1t1ck2ditdod7h39sldtn6m08g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
