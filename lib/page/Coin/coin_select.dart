@@ -1,14 +1,8 @@
-// ignore_for_file: unused_local_variable
-
 import 'dart:convert';
-import 'dart:ui';
-
 import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:coin/model/olhc_model.dart';
-
 import 'package:coin/model/select_coin_model.dart';
 import 'package:coin/page/Coin/Chart/olhc_page.dart';
-import 'package:coin/page/Coin/exchange_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
