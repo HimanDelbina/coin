@@ -12,6 +12,8 @@ import 'package:coin/page/Coin/trends.dart';
 import 'package:coin/page/Whale/whale.dart';
 import 'package:coin/provider/getchart_provider.dart';
 import 'package:coin/provider/getcoin_provider.dart';
+import 'package:coin/provider/language.dart';
+import 'package:coin/provider/theme.dart';
 import 'package:coin/static/filter_static.dart';
 import 'package:flutter/foundation.dart';
 
@@ -170,7 +172,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     double myWidth = MediaQuery.of(context).size.width;
     context.read<CoinGet>().fetchData;
     context.read<ChartGet>().fetchData;
+    ThemeBloc theme = Provider.of<ThemeBloc>(context);
+    LanguageBloc language = Provider.of<LanguageBloc>(context);
     return Scaffold(
+      backgroundColor: theme.backgroundColor,
       body: Container(
         height: myHeight,
         width: myWidth,
@@ -179,7 +184,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             Container(
               height: myHeight * 0.17,
               width: myWidth,
-              color: Colors.black,
+              color: theme.tophomeColor,
               child: Column(
                 children: [
                   Container(
@@ -219,61 +224,61 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  Expanded(
-                      child: Container(
-                    width: myWidth,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5.0, vertical: 5.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blueAccent,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Consumer<ChartGet>(
-                          builder: (context, value, child) {
-                            return value.map.length == 0 && !value.error
-                                ? Center(
-                                    child: Lottie.asset(
-                                        "assets/animation/loading.json",
-                                        height: 40.0),
-                                  )
-                                : value.error
-                                    ? Text(value.errorMessage.toString())
-                                    : ListView.builder(
-                                        reverse: true,
-                                        itemCount: 50,
-                                        controller: scrollController,
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, index) {
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10.0),
-                                            child: Center(
-                                              child: value.map[index].name !=
-                                                      null
-                                                  ? Text(
-                                                      value.map[index].name
-                                                              .toString() +
-                                                          r' :  $' +
-                                                          value.map[index]
-                                                              .currentPrice
-                                                              .toString(),
-                                                      style: TextStyle(
-                                                          color: Colors.white
-                                                              .withOpacity(
-                                                                  0.9)),
-                                                    )
-                                                  : const Text("تعیین نشده"),
-                                            ),
-                                          );
-                                        },
-                                      );
-                          },
-                        ),
-                      ),
-                    ),
-                  ))
+                  // Expanded(
+                  //     child: Container(
+                  //   width: myWidth,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.symmetric(
+                  //         horizontal: 5.0, vertical: 5.0),
+                  //     child: Container(
+                  //       decoration: BoxDecoration(
+                  //         color: Colors.blueAccent,
+                  //         borderRadius: BorderRadius.circular(5),
+                  //       ),
+                  //       child: Consumer<ChartGet>(
+                  //         builder: (context, value, child) {
+                  //           return value.map.length == 0 && !value.error
+                  //               ? Center(
+                  //                   child: Lottie.asset(
+                  //                       "assets/animation/loading.json",
+                  //                       height: 40.0),
+                  //                 )
+                  //               : value.error
+                  //                   ? Text(value.errorMessage.toString())
+                  //                   : ListView.builder(
+                  //                       reverse: true,
+                  //                       itemCount: 50,
+                  //                       controller: scrollController,
+                  //                       scrollDirection: Axis.horizontal,
+                  //                       itemBuilder: (context, index) {
+                  //                         return Padding(
+                  //                           padding: const EdgeInsets.symmetric(
+                  //                               horizontal: 10.0),
+                  //                           child: Center(
+                  //                             child: value.map[index].name !=
+                  //                                     null
+                  //                                 ? Text(
+                  //                                     value.map[index].name
+                  //                                             .toString() +
+                  //                                         r' :  $' +
+                  //                                         value.map[index]
+                  //                                             .currentPrice
+                  //                                             .toString(),
+                  //                                     style: TextStyle(
+                  //                                         color: Colors.white
+                  //                                             .withOpacity(
+                  //                                                 0.9)),
+                  //                                   )
+                  //                                 : const Text("تعیین نشده"),
+                  //                           ),
+                  //                         );
+                  //                       },
+                  //                     );
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ))
                 ],
               ),
             ),
@@ -289,93 +294,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Whale(),
-                                  ));
-                            },
-                            child: Container(
-                              height: myHeight * 0.07,
-                              width: myWidth * 0.45,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                    )
-                                  ]),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  const Text(
-                                    "خرید نهنگ ها",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Image.asset(
-                                      "assets/icon/whale.png",
-                                      height: 24.0,
-                                      // color: Colors.white,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const NewsPage(),
-                                  ));
-                            },
-                            child: Container(
-                              height: myHeight * 0.07,
-                              width: myWidth * 0.45,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                    )
-                                  ]),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  const Text(
-                                    "اخبار",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0),
-                                  ),
-                                  Container(
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        // color: Colors.blueAccent,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(3.0),
-                                        child: Image.asset(
-                                          "assets/icon/news.png",
-                                          height: 22.0,
-                                          // color: Colors.white,
-                                        ),
-                                      ))
-                                ],
-                              ),
-                            ),
-                          ),
+                          conHome("خرید نهنگ ها", "assets/icon/whale.png",
+                              const Whale()),
+                          conHome("اخبار", "assets/icon/news.png",
+                              const NewsPage()),
                         ],
                       ),
                       Row(
@@ -743,6 +665,50 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 )
               ],
             )),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget conHome(String title, String image, Widget widget) {
+    double myHeight = MediaQuery.of(context).size.height;
+    double myWidth = MediaQuery.of(context).size.width;
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => widget,
+            ));
+      },
+      child: Container(
+        height: myHeight * 0.07,
+        width: myWidth * 0.45,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.grey,
+              )
+            ]),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              title,
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: Image.asset(
+                image,
+                height: 24.0,
+                // color: Colors.white,
+              ),
+            )
           ],
         ),
       ),
