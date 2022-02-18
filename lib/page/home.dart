@@ -15,6 +15,7 @@ import 'package:coin/provider/getcoin_provider.dart';
 import 'package:coin/provider/language.dart';
 import 'package:coin/provider/theme.dart';
 import 'package:coin/static/filter_static.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
@@ -294,9 +295,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          conHome("خرید نهنگ ها", "assets/icon/whale.png",
+                          conHome("whale".tr(), "assets/icon/whale.png",
                               const Whale()),
-                          conHome("اخبار", "assets/icon/news.png",
+                          conHome("news".tr(), "assets/icon/news.png",
                               const NewsPage()),
                         ],
                       ),

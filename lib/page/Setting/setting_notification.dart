@@ -1,5 +1,6 @@
 import 'package:coin/provider/language.dart';
 import 'package:coin/provider/theme.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +48,7 @@ class _SettingNotificationState extends State<SettingNotification> {
                           ),
                           const SizedBox(width: 10.0),
                           Text(
-                            language.notificationSetting,
+                            "notificationSetting".tr(),
                             style: TextStyle(
                                 color: theme.textColor,
                                 fontWeight: FontWeight.bold,
@@ -56,7 +57,7 @@ class _SettingNotificationState extends State<SettingNotification> {
                         ],
                       ),
                       Text(
-                        language.textNotificationSetting,
+                        "textNotificationSetting".tr(),
                         style: TextStyle(
                             color: theme.textOpacityColor, fontSize: 14.0),
                       ),
@@ -67,7 +68,7 @@ class _SettingNotificationState extends State<SettingNotification> {
             ),
             SettingNot(
                 "assets/icon/bold/Notification.png",
-                language.newsNotification,
+                "newsNotification".tr(),
                 Switch(
                   activeColor: theme.iconColor,
                   // activeTrackColor: Colors.green.withOpacity(0.2),
@@ -80,7 +81,7 @@ class _SettingNotificationState extends State<SettingNotification> {
                 )),
             SettingNot(
                 "assets/icon/bold/Notification.png",
-                language.whaleNotification,
+                "whaleNotification".tr(),
                 Switch(
                   activeColor: theme.iconColor,
                   value: switchControlWall,

@@ -5,6 +5,7 @@ import 'package:coin/provider/getchart_provider.dart';
 import 'package:coin/provider/gettrends_provider.dart';
 import 'package:coin/provider/language.dart';
 import 'package:coin/provider/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -61,7 +62,16 @@ Future<void> main() async {
       sound: true,
     );
   }
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(EasyLocalization(
+      saveLocale: true,
+      supportedLocales: const [
+        Locale('fa', 'IR'),
+        Locale('en', 'EN'),
+      ],
+      path: "assets/resourse",
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -97,14 +107,14 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: "Vazir"),
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        supportedLocales: const [Locale('fa', 'IR')],
-        home: const Logo(),
+        // home: const Logo(),
+        home: const SettingPage(),
         // home: const SettingPage(),
       ),
     );

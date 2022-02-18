@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:coin/page/Setting/setting_notification.dart';
 import 'package:coin/provider/language.dart';
 import 'package:coin/provider/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +36,7 @@ class _SettingPageState extends State<SettingPage> {
               },
               child: SettingWidget(
                   "assets/icon/bold/Notification.png",
-                  language.notification,
+                  "notification".tr(),
                   theme.con2Color,
                   const Icon(
                     Icons.arrow_forward_ios_rounded,
@@ -42,7 +45,7 @@ class _SettingPageState extends State<SettingPage> {
             ),
             SettingWidget(
                 "assets/icon/theme.png",
-                language.theme,
+                "theme".tr(),
                 theme.conColor,
                 Switch(
                     value: switchTheme,
@@ -57,23 +60,34 @@ class _SettingPageState extends State<SettingPage> {
                         theme.blackTheme();
                       }
                     })),
-            SettingWidget(
-                "assets/icon/language.png",
-                language.language,
-                theme.conColor,
-                Switch(
-                    value: switchLanguage,
-                    activeColor: theme.iconColor,
-                    onChanged: (bool value) {
-                      setState(() {
-                        switchLanguage = value;
-                      });
-                      if (switchLanguage == false) {
-                        language.persianLanguage();
-                      } else if (switchLanguage == true) {
-                        language.englishLanguage();
-                      }
-                    })),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 5.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        "selectLanguageSetting".tr(),
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.bold,
+                          color: theme.textColor,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                _SwitchListTileMenuItem(
+                    title: 'persian'.tr(),
+                    image: 'assets/icon/translate.png',
+                    locale: context.supportedLocales[0]),
+                _SwitchListTileMenuItem(
+                    title: "english".tr(),
+                    image: 'assets/icon/translate.png',
+                    locale: context.supportedLocales[1]),
+              ],
+            )
           ],
         ),
       ),
@@ -116,6 +130,103 @@ class _SettingPageState extends State<SettingPage> {
               widget,
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SwitchListTileMenuItem extends StatefulWidget {
+  const _SwitchListTileMenuItem({
+    Key? key,
+    required this.title,
+    required this.image,
+    required this.locale,
+  }) : super(key: key);
+
+  final String title;
+  final String image;
+  final Locale locale;
+
+  @override
+  State<_SwitchListTileMenuItem> createState() =>
+      _SwitchListTileMenuItemState();
+}
+
+class _SwitchListTileMenuItemState extends State<_SwitchListTileMenuItem> {
+  bool isSelected(BuildContext context) => widget.locale == context.locale;
+
+  @override
+  Widget build(BuildContext context) {
+    double myHeight = MediaQuery.of(context).size.height;
+    double myWidth = MediaQuery.of(context).size.width;
+    ThemeBloc theme = Provider.of<ThemeBloc>(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      child: GestureDetector(
+        onTap: () async {
+          log(widget.locale.toString(), name: toString());
+          await context.setLocale(widget.locale);
+          // Navigator.pop(context);
+        },
+        child: Container(
+          height: myHeight * 0.07,
+          width: myWidth,
+          decoration: BoxDecoration(
+            color: theme.conColor,
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      widget.image,
+                      height: 20.0,
+                      color: theme.iconColor,
+                    ),
+                    const SizedBox(width: 10.0),
+                    Text(
+                      widget.title,
+                      style: TextStyle(
+                          color: theme.textColor, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                isSelected(context)
+                    ? Image.asset("assets/icon/TickSquare.png",
+                        height: 25.0,
+                        color:
+                            isSelected(context) ? theme.iconColor : Colors.grey)
+                    : Image.asset("assets/icon/CloseSquare.png",
+                        height: 25.0,
+                        color:
+                            isSelected(context) ? theme.iconColor : Colors.grey)
+              ],
+            ),
+          ),
+          // decoration: BoxDecoration(
+          //   border:
+          //       isSelected(context) ? Border.all(color: Colors.blueAccent) : null,
+          // ),
+          // child: ListTile(
+          //     dense: true,
+          //     // isThreeLine: true,
+          //     title: Text(
+          //       widget.title,
+          //     ),
+          //     subtitle: Text(
+          //       widget.subtitle,
+          //     ),
+          //     onTap: () async {
+          //       log(widget.locale.toString(), name: toString());
+          //       await context
+          //           .setLocale(widget.locale); //BuildContext extension method
+          //       Navigator.pop(context);
+          //     }),
         ),
       ),
     );
