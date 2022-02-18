@@ -2,8 +2,6 @@ import 'package:coin/page/home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../provider/language.dart';
 import '../provider/theme.dart';
 import 'first_page.dart';
 import 'login.dart';
@@ -24,7 +22,6 @@ class _LogoState extends State<Logo> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     set_theme();
-    set_language();
     controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 2));
     curveImage = CurvedAnimation(parent: controller!, curve: Curves.linear);
@@ -52,24 +49,6 @@ class _LogoState extends State<Logo> with SingleTickerProviderStateMixin {
       //   break;
       case "white":
         theme_Bloc.defaltTheme();
-        break;
-      default:
-    }
-  }
-
-  void set_language() async {
-    await Future.delayed(const Duration(milliseconds: 50));
-    SharedPreferences _pref = await SharedPreferences.getInstance();
-    var language_code = _pref.getString("language_code");
-    final LanguageBloc language_bloc =
-        Provider.of<LanguageBloc>(context, listen: false);
-
-    switch (language_code) {
-      case "per":
-        language_bloc.persianLanguage();
-        break;
-      case "en":
-        language_bloc.englishLanguage();
         break;
       default:
     }

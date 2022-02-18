@@ -10,5 +10,13 @@
     "language": "زبان",
     "selectLanguageSetting": "لطفا زبان مورد نظر خود را انتخاب کنید",
     "english": "انگلیسی",
-    "persian": "فارسی"
+    "persian": "فارسی",
+    "top10": "برترین ها",
+    "more": "بیشتر ...",
+    "customize": "سفارشی سازی",
+    "customizetitle": "سفارشی سازی صفحه اصلی",
+    "customizedescription": "شما میتوانید صفحه اصلی اپلیکیشن را با اضافه یا حذف کردن آیتم ها سفارشی کنید .",
+    "customizeshowhome": "نمایش در صفحه اصلی",
+    "customizeLosers": "برنده ها و بازنده ها",
+    "customizeMoreSelected": "انتخاب های بیشتر"
 }

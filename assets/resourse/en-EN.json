@@ -10,5 +10,13 @@
     "language": "Language",
     "selectLanguageSetting": "Please Select The Language",
     "english": "English",
-    "persian": "Persian"
+    "persian": "Persian",
+    "top10": "Top 10",
+    "more": "More ...",
+    "customize": "Customize",
+    "customizetitle": "Home customization",
+    "customizedescription": "You can customize the main page of the application by adding or deleting items .",
+    "customizeshowhome": "Display on the home screen",
+    "customizeLosers": "Gainers & losers",
+    "customizeMoreSelected": "More Selected"
 }

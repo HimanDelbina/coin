@@ -1,11 +1,12 @@
 import 'dart:developer';
 
 import 'package:coin/page/Setting/setting_notification.dart';
-import 'package:coin/provider/language.dart';
 import 'package:coin/provider/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'setting_customize.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -20,7 +21,6 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     ThemeBloc theme = Provider.of<ThemeBloc>(context);
-    LanguageBloc language = Provider.of<LanguageBloc>(context);
     return Scaffold(
       backgroundColor: theme.backgroundColor,
       body: SafeArea(
@@ -37,6 +37,23 @@ class _SettingPageState extends State<SettingPage> {
               child: SettingWidget(
                   "assets/icon/bold/Notification.png",
                   "notification".tr(),
+                  theme.con2Color,
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 15.0,
+                  )),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SettingCustomize(),
+                    ));
+              },
+              child: SettingWidget(
+                  "assets/icon/Filter.png",
+                  "customize".tr(),
                   theme.con2Color,
                   const Icon(
                     Icons.arrow_forward_ios_rounded,

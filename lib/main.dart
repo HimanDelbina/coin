@@ -3,7 +3,6 @@ import 'package:coin/page/first_page.dart';
 import 'package:coin/provider/check_internet.dart';
 import 'package:coin/provider/getchart_provider.dart';
 import 'package:coin/provider/gettrends_provider.dart';
-import 'package:coin/provider/language.dart';
 import 'package:coin/provider/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,10 +10,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'page/Setting/setting_notification.dart';
-import 'page/logo.dart';
+import 'page/Setting/setting_customize.dart';
 import 'provider/getcoin_provider.dart';
 import 'provider/getexchange_provider.dart';
 import 'provider/page_provider.dart';
@@ -102,9 +99,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ThemeBloc>.value(
           value: ThemeBloc(),
         ),
-        ChangeNotifierProvider<LanguageBloc>.value(
-          value: LanguageBloc(),
-        ),
       ],
       child: MaterialApp(
         localizationsDelegates: context.localizationDelegates,
@@ -115,7 +109,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(fontFamily: "Vazir"),
         // home: const Logo(),
         home: const SettingPage(),
-        // home: const SettingPage(),
+        // home: const FirstPage(),
       ),
     );
   }
