@@ -9,6 +9,7 @@ class ThemeBloc extends ChangeNotifier {
   Color _tophomeColor = const Color(0xff23272C);
   Color _textColor = Colors.black;
   Color _textOpacityColor = Colors.grey;
+  Color _textMoreColor = Colors.blueGrey;
   Color _iconColor = Colors.blueAccent;
   Color _conColor = Colors.grey.withOpacity(0.1);
   Color _con2Color = Colors.blueAccent.withOpacity(0.1);
@@ -20,6 +21,7 @@ class ThemeBloc extends ChangeNotifier {
   Color get tophomeColor => _tophomeColor;
   Color get textColor => _textColor;
   Color get textOpacityColor => _textOpacityColor;
+  Color get textMoreColor => _textMoreColor;
   Color get iconColor => _iconColor;
   Color get conColor => _conColor;
   Color get con2Color => _con2Color;
@@ -47,6 +49,7 @@ class ThemeBloc extends ChangeNotifier {
     _textColor = Colors.black;
     _textOpacityColor = Colors.grey;
     _tophomeColor = const Color(0xff23272C);
+    _textMoreColor = Colors.blueGrey;
     _iconColor = Colors.blueAccent;
     _conColor = Colors.grey.withOpacity(0.1);
     _con2Color = Colors.blueAccent.withOpacity(0.1);
@@ -65,6 +68,7 @@ class ThemeBloc extends ChangeNotifier {
     _textColor = const Color(0xffd0d0d0);
     _textOpacityColor = Colors.grey;
     _tophomeColor = const Color(0xFFEFEFEF);
+    _textMoreColor = Colors.blueGrey;
     _iconColor = Colors.redAccent;
     _conColor = const Color(0xff3F4348);
     _con2Color = Colors.blueAccent.withOpacity(0.1);

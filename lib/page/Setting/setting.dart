@@ -225,25 +225,6 @@ class _SwitchListTileMenuItemState extends State<_SwitchListTileMenuItem> {
               ],
             ),
           ),
-          // decoration: BoxDecoration(
-          //   border:
-          //       isSelected(context) ? Border.all(color: Colors.blueAccent) : null,
-          // ),
-          // child: ListTile(
-          //     dense: true,
-          //     // isThreeLine: true,
-          //     title: Text(
-          //       widget.title,
-          //     ),
-          //     subtitle: Text(
-          //       widget.subtitle,
-          //     ),
-          //     onTap: () async {
-          //       log(widget.locale.toString(), name: toString());
-          //       await context
-          //           .setLocale(widget.locale); //BuildContext extension method
-          //       Navigator.pop(context);
-          //     }),
         ),
       ),
     );

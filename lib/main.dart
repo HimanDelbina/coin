@@ -1,5 +1,6 @@
 import 'package:coin/page/Setting/setting.dart';
 import 'package:coin/page/first_page.dart';
+import 'package:coin/page/logo.dart';
 import 'package:coin/provider/check_internet.dart';
 import 'package:coin/provider/getchart_provider.dart';
 import 'package:coin/provider/gettrends_provider.dart';
@@ -107,8 +108,8 @@ class MyApp extends StatelessWidget {
 
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: "Vazir"),
-        // home: const Logo(),
-        home: const SettingPage(),
+        home: const Logo(),
+        // home: const SettingPage(),
         // home: const FirstPage(),
       ),
     );

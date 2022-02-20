@@ -176,6 +176,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               child: ListView(
                 children: const [
                   Coin10First(),
+                  Trends(),
                 ],
               ),
             ),

@@ -1,4 +1,6 @@
 import 'package:coin/provider/gettrends_provider.dart';
+import 'package:coin/provider/theme.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +30,7 @@ class _TrendsState extends State<Trends> {
     double myHeight = MediaQuery.of(context).size.height;
     double myWidth = MediaQuery.of(context).size.width;
     context.read<TrendsGet>().fetchData;
+    ThemeBloc theme = Provider.of<ThemeBloc>(context);
     return Container(
       height: myHeight * 0.22,
       width: myWidth,
@@ -46,7 +49,7 @@ class _TrendsState extends State<Trends> {
                         itemCount: 10,
                         itemBuilder: (context, index) {
                           return Container(
-                            height: myHeight * 0.2,
+                            height: myHeight * 0.22,
                             width: myWidth,
                             // color: Colors.red,
                             child: Column(
@@ -57,18 +60,18 @@ class _TrendsState extends State<Trends> {
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    children: const [
+                                    children: [
                                       Text(
-                                        "Trends",
+                                        "trend".tr(),
                                         style: TextStyle(
-                                          color: Colors.black,
+                                          color: theme.textColor,
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       Text(
-                                        "بیشتر ...",
-                                        style: TextStyle(
+                                        "more".tr(),
+                                        style: const TextStyle(
                                           fontSize: 12.0,
                                           color: Colors.blueAccent,
                                           fontWeight: FontWeight.bold,
@@ -82,198 +85,197 @@ class _TrendsState extends State<Trends> {
                                   itemCount: value.map!.coins!.length,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (context, index) {
-                                    return value.map!.coins![index].item!
-                                                .name !=
-                                            null
-                                        ? Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10.0),
-                                            child: Center(
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  // Navigator.push(
-                                                  //     context,
-                                                  //     MaterialPageRoute(
-                                                  //       builder: (context) => CoinSelect(
-                                                  //           changePrice: value
-                                                  //               .map[
-                                                  //                   index]
-                                                  //               .marketCapChangePercentage24H!,
-                                                  //           price: value
-                                                  //               .map[
-                                                  //                   index]
-                                                  //               .currentPrice,
-                                                  //           id: value
-                                                  //               .map[
-                                                  //                   index]
-                                                  //               .id
-                                                  //               .toString()),
-                                                  //     ));
-                                                },
-                                                child: Container(
-                                                  height: myHeight * 0.15,
-                                                  width: myWidth * 0.34,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                      boxShadow: const [
-                                                        BoxShadow(
-                                                          color: Colors.grey,
-                                                        )
-                                                      ]),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 10),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            value
-                                                                        .map!
-                                                                        .coins![
-                                                                            index]
-                                                                        .item!
-                                                                        .symbol !=
-                                                                    null
-                                                                ? Text(
-                                                                    value
-                                                                        .map!
-                                                                        .coins![
-                                                                            index]
-                                                                        .item!
-                                                                        .symbol
-                                                                        .toString(),
-                                                                    style: const TextStyle(
-                                                                        fontSize:
-                                                                            13.0,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                  )
-                                                                : const Text(
-                                                                    "تعیین نشده"),
-                                                            Container(
-                                                              height: myHeight *
-                                                                  0.04,
-                                                              width: myWidth *
-                                                                  0.08,
-                                                              decoration: BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  border: Border.all(
-                                                                      color: Colors
-                                                                          .grey
-                                                                          .withOpacity(
-                                                                              0.2)),
-                                                                  image: DecorationImage(
-                                                                      fit: BoxFit
-                                                                          .fill,
-                                                                      image: NetworkImage(value
-                                                                          .map!
-                                                                          .coins![
-                                                                              index]
-                                                                          .item!
-                                                                          .small
-                                                                          .toString()))),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Column(
-                                                          children: [
-                                                            Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                const Spacer(),
-                                                                value
-                                                                            .map!
-                                                                            .coins![
-                                                                                index]
-                                                                            .item!
-                                                                            .name !=
-                                                                        null
-                                                                    ? Text(
-                                                                        value
-                                                                            .map!
-                                                                            .coins![index]
-                                                                            .item!
-                                                                            .name
-                                                                            .toString(),
-                                                                        style: const TextStyle(
-                                                                            fontSize:
-                                                                                13.0,
-                                                                            fontWeight:
-                                                                                FontWeight.bold),
-                                                                      )
-                                                                    : const Text(
-                                                                        "تعیین نشده"),
-                                                              ],
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                const Text(
-                                                                  "رتبه ارز : ",
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      child: Center(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            // Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //       builder: (context) => CoinSelect(
+                                            //           changePrice: value
+                                            //               .map[
+                                            //                   index]
+                                            //               .marketCapChangePercentage24H!,
+                                            //           price: value
+                                            //               .map[
+                                            //                   index]
+                                            //               .currentPrice,
+                                            //           id: value
+                                            //               .map[
+                                            //                   index]
+                                            //               .id
+                                            //               .toString()),
+                                            //     ));
+                                          },
+                                          child: Container(
+                                            height: myHeight * 0.15,
+                                            width: myWidth * 0.34,
+                                            decoration: BoxDecoration(
+                                                color: theme.conColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        10.0)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      value
+                                                                  .map!
+                                                                  .coins![index]
+                                                                  .item!
+                                                                  .symbol !=
+                                                              null
+                                                          ? Text(
+                                                              value
+                                                                  .map!
+                                                                  .coins![index]
+                                                                  .item!
+                                                                  .symbol
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  color: theme
+                                                                      .textColor,
+                                                                  fontSize:
+                                                                      13.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            )
+                                                          : Text("تعیین نشده",
+                                                              style: TextStyle(
+                                                                  color: theme
+                                                                      .textColor)),
+                                                      Container(
+                                                        height: myHeight * 0.04,
+                                                        width: myWidth * 0.08,
+                                                        decoration: BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.2)),
+                                                            image: DecorationImage(
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                                image: NetworkImage(value
+                                                                    .map!
+                                                                    .coins![
+                                                                        index]
+                                                                    .item!
+                                                                    .small
+                                                                    .toString()))),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          const Spacer(),
+                                                          value
+                                                                      .map!
+                                                                      .coins![
+                                                                          index]
+                                                                      .item!
+                                                                      .name !=
+                                                                  null
+                                                              ? Text(
+                                                                  value
+                                                                      .map!
+                                                                      .coins![
+                                                                          index]
+                                                                      .item!
+                                                                      .name
+                                                                      .toString(),
                                                                   style: TextStyle(
-                                                                      color: Colors
-                                                                          .blueGrey,
+                                                                      color: theme
+                                                                          .textColor,
                                                                       fontSize:
-                                                                          14.0,
+                                                                          13.0,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold),
-                                                                ),
-                                                                value
-                                                                            .map!
-                                                                            .coins![
-                                                                                index]
-                                                                            .item!
-                                                                            .marketCapRank !=
-                                                                        null
-                                                                    ? Text(
-                                                                        value
-                                                                            .map!
-                                                                            .coins![index]
-                                                                            .item!
-                                                                            .marketCapRank
-                                                                            .toString(),
-                                                                        style:
-                                                                            const TextStyle(
-                                                                          fontSize:
-                                                                              13.0,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                          color:
-                                                                              Colors.black,
-                                                                        ),
-                                                                      )
-                                                                    : const Text(
-                                                                        "تعیین نشده"),
-                                                                const Spacer(),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
+                                                                )
+                                                              : Text(
+                                                                  "تعیین نشده",
+                                                                  style: TextStyle(
+                                                                      color: theme
+                                                                          .textColor)),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            "rank".tr() + " : ",
+                                                            style: TextStyle(
+                                                                color: theme
+                                                                    .textMoreColor,
+                                                                fontSize: 14.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          value
+                                                                      .map!
+                                                                      .coins![
+                                                                          index]
+                                                                      .item!
+                                                                      .marketCapRank !=
+                                                                  null
+                                                              ? Text(
+                                                                  value
+                                                                      .map!
+                                                                      .coins![
+                                                                          index]
+                                                                      .item!
+                                                                      .marketCapRank
+                                                                      .toString(),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: theme
+                                                                        .textColor,
+                                                                    fontSize:
+                                                                        13.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                )
+                                                              : Text(
+                                                                  "تعیین نشده",
+                                                                  style: TextStyle(
+                                                                      color: theme
+                                                                          .textColor)),
+                                                          const Spacer(),
+                                                        ],
+                                                      ),
+                                                    ],
                                                   ),
-                                                ),
+                                                ],
                                               ),
                                             ),
-                                          )
-                                        : Center(
-                                            child: Lottie.asset(
-                                                "assets/animation/loading.json",
-                                                height: 40.0),
-                                          );
+                                          ),
+                                        ),
+                                      ),
+                                    );
                                   },
                                 )),
                               ],

@@ -3,6 +3,7 @@ import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:coin/model/olhc_model.dart';
 import 'package:coin/model/select_coin_model.dart';
 import 'package:coin/page/Coin/Chart/olhc_page.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
@@ -493,6 +494,64 @@ class _CoinSelectState extends State<CoinSelect> {
     }
   }
 
+  Widget DateAmarShow(String selct, String selected) {
+    return GestureDetector(
+      // onTap: addToValue,
+      onTap: () {
+        setState(() {
+          showSelectedPrice = selct;
+          showSelectedPriceText = selected;
+        });
+      },
+      child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color:
+                showSelectedPrice == selct ? Colors.white : Colors.transparent,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Text(
+              selct,
+              style: TextStyle(
+                  fontSize: 11.0,
+                  fontWeight: showSelectedPrice == selct
+                      ? FontWeight.bold
+                      : FontWeight.normal),
+            ),
+          )),
+    );
+  }
+
+  Widget dateAmar(var ifData, String title, double ifColor) {
+    return Row(
+      children: [
+        ifData != null
+            ? Text(
+                "% " + title,
+                style: TextStyle(
+                    color: ifColor != null
+                        ? ifColor <= 0
+                            ? Colors.red
+                            : Colors.green
+                        : Colors.grey),
+              )
+            : Text("rank".tr()),
+        Icon(
+            ifColor != null
+                ? ifColor <= 0
+                    ? Icons.arrow_drop_down_rounded
+                    : Icons.arrow_drop_up_rounded
+                : Icons.minimize,
+            color: ifColor != null
+                ? ifColor <= 0
+                    ? Colors.red
+                    : Colors.green
+                : Colors.grey),
+      ],
+    );
+  }
+
   String? showSelectedPrice = "24H";
   String? showSelectedPriceText = "24 ساعت گذشته";
   Widget AmarChangePrice() {
@@ -533,220 +592,14 @@ class _CoinSelectState extends State<CoinSelect> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      showSelectedPrice = "1H";
-                      showSelectedPriceText = "1 ساعت گذشته";
-                    });
-                  },
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: showSelectedPrice == "1H"
-                            ? Colors.white
-                            : Colors.transparent,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Text(
-                          "1H",
-                          style: TextStyle(
-                              fontSize: 11.0,
-                              fontWeight: showSelectedPrice == "1H"
-                                  ? FontWeight.bold
-                                  : FontWeight.normal),
-                        ),
-                      )),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      showSelectedPrice = "24H";
-                      showSelectedPriceText = "24 ساعت گذشته";
-                    });
-                  },
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: showSelectedPrice == "24H"
-                            ? Colors.white
-                            : Colors.transparent,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Text(
-                          "24H",
-                          style: TextStyle(
-                              fontSize: 11.0,
-                              fontWeight: showSelectedPrice == "24H"
-                                  ? FontWeight.bold
-                                  : FontWeight.normal),
-                        ),
-                      )),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      showSelectedPrice = "7D";
-                      showSelectedPriceText = "7 روز گذشته";
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: showSelectedPrice == "7D"
-                          ? Colors.white
-                          : Colors.transparent,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Text(
-                        "7D",
-                        style: TextStyle(
-                            fontSize: 11.0,
-                            fontWeight: showSelectedPrice == "7D"
-                                ? FontWeight.bold
-                                : FontWeight.normal),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      showSelectedPrice = "14D";
-                      showSelectedPriceText = "14 روز گذشته";
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: showSelectedPrice == "14D"
-                          ? Colors.white
-                          : Colors.transparent,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Text(
-                        "14D",
-                        style: TextStyle(
-                            fontSize: 11.0,
-                            fontWeight: showSelectedPrice == "14D"
-                                ? FontWeight.bold
-                                : FontWeight.normal),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      showSelectedPrice = "30D";
-                      showSelectedPriceText = "30 روز گذشته";
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: showSelectedPrice == "30D"
-                          ? Colors.white
-                          : Colors.transparent,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Text(
-                        "30D",
-                        style: TextStyle(
-                            fontSize: 11.0,
-                            fontWeight: showSelectedPrice == "30D"
-                                ? FontWeight.bold
-                                : FontWeight.normal),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      showSelectedPrice = "60D";
-                      showSelectedPriceText = "60 روز گذشته";
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: showSelectedPrice == "60D"
-                          ? Colors.white
-                          : Colors.transparent,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Text(
-                        "60D",
-                        style: TextStyle(
-                            fontSize: 11.0,
-                            fontWeight: showSelectedPrice == "60D"
-                                ? FontWeight.bold
-                                : FontWeight.normal),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      showSelectedPrice = "200D";
-                      showSelectedPriceText = "200 روز گذشته";
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: showSelectedPrice == "200D"
-                          ? Colors.white
-                          : Colors.transparent,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Text(
-                        "200D",
-                        style: TextStyle(
-                            fontSize: 11.0,
-                            fontWeight: showSelectedPrice == "200D"
-                                ? FontWeight.bold
-                                : FontWeight.normal),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      showSelectedPrice = "1Y";
-                      showSelectedPriceText = "1 سال گذشته";
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: showSelectedPrice == "1Y"
-                          ? Colors.white
-                          : Colors.transparent,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Text(
-                        "1Y",
-                        style: TextStyle(
-                            fontSize: 11.0,
-                            fontWeight: showSelectedPrice == "1Y"
-                                ? FontWeight.bold
-                                : FontWeight.normal),
-                      ),
-                    ),
-                  ),
-                ),
+                DateAmarShow("1H", "1 ساعت گذشته"),
+                DateAmarShow("24H", "24 ساعت گذشته"),
+                DateAmarShow("7D", "7 روز گذشته"),
+                DateAmarShow("14D", "14 روز گذشته"),
+                DateAmarShow("30D", "30 روز گذشته"),
+                DateAmarShow("60D", "14 60 روز گذشته"),
+                DateAmarShow("200D", "200 روز گذشته"),
+                DateAmarShow("1Y", "1 سال گذشته"),
               ],
             ),
           ),
@@ -761,524 +614,110 @@ class _CoinSelectState extends State<CoinSelect> {
                 style: const TextStyle(color: Colors.blueGrey, fontSize: 14.0),
               ),
               showSelectedPrice == "1H"
-                  ? Row(
-                      children: [
-                        himan!.marketData!.priceChangePercentage1HInCurrency !=
-                                null
-                            ? Text(
-                                "% " +
-                                    himan!
-                                        .marketData!
-                                        .priceChangePercentage1HInCurrency![
-                                            "usd"]
-                                        .toString(),
-                                style: TextStyle(
-                                    color: himan!
-                                                .marketData!
-                                                .priceChangePercentage1HInCurrency![
-                                                    "usd"]!
-                                                .toDouble() !=
-                                            null
-                                        ? himan!
-                                                    .marketData!
-                                                    .priceChangePercentage1HInCurrency![
-                                                        "usd"]!
-                                                    .toDouble() <=
-                                                0
-                                            ? Colors.red
-                                            : Colors.green
-                                        : Colors.grey),
-                              )
-                            : const Text("تعیین نشده"),
-                        Icon(
-                            himan!
-                                        .marketData!
-                                        .priceChangePercentage1HInCurrency![
-                                            "usd"]!
-                                        .toDouble() !=
-                                    null
-                                ? himan!
-                                            .marketData!
-                                            .priceChangePercentage1HInCurrency![
-                                                "usd"]!
-                                            .toDouble() <=
-                                        0
-                                    ? Icons.arrow_drop_down_rounded
-                                    : Icons.arrow_drop_up_rounded
-                                : Icons.minimize,
-                            color: himan!
-                                        .marketData!
-                                        .priceChangePercentage1HInCurrency![
-                                            "usd"]!
-                                        .toDouble() !=
-                                    null
-                                ? himan!
-                                            .marketData!
-                                            .priceChangePercentage1HInCurrency![
-                                                "usd"]!
-                                            .toDouble() <=
-                                        0
-                                    ? Colors.red
-                                    : Colors.green
-                                : Colors.grey),
-                      ],
+                  ? dateAmar(
+                      himan!.marketData!.priceChangePercentage1HInCurrency,
+                      himan!
+                          .marketData!.priceChangePercentage1HInCurrency!["usd"]
+                          .toString(),
+                      himan!.marketData!
+                          .priceChangePercentage1HInCurrency!["usd"]!
+                          .toDouble(),
                     )
                   : showSelectedPrice == "24H"
-                      ? Row(
-                          children: [
-                            Text(
-                              himan!.marketData!
-                                              .priceChangePercentage24HInCurrency![
-                                          "usd"] !=
-                                      null
-                                  ? "% " +
-                                      himan!
-                                          .marketData!
-                                          .priceChangePercentage24HInCurrency![
-                                              "usd"]
-                                          .toString()
-                                  : "تعیین نشده",
-                              style: TextStyle(
-                                  color: himan!
-                                              .marketData!
-                                              .priceChangePercentage24HInCurrency![
-                                                  "usd"]!
-                                              .toDouble() !=
-                                          null
-                                      ? himan!
-                                                  .marketData!
-                                                  .priceChangePercentage24HInCurrency![
-                                                      "usd"]!
-                                                  .toDouble() <=
-                                              0
-                                          ? Colors.red
-                                          : Colors.green
-                                      : Colors.grey),
-                            ),
-                            Icon(
-                                himan!
-                                            .marketData!
-                                            .priceChangePercentage24HInCurrency![
-                                                "usd"]!
-                                            .toDouble() !=
-                                        null
-                                    ? himan!
-                                                .marketData!
-                                                .priceChangePercentage24HInCurrency![
-                                                    "usd"]!
-                                                .toDouble() <=
-                                            0
-                                        ? Icons.arrow_drop_down_rounded
-                                        : Icons.arrow_drop_up_rounded
-                                    : Icons.minimize,
-                                color: himan!
-                                            .marketData!
-                                            .priceChangePercentage24HInCurrency![
-                                                "usd"]!
-                                            .toDouble() !=
-                                        null
-                                    ? himan!
-                                                .marketData!
-                                                .priceChangePercentage24HInCurrency![
-                                                    "usd"]!
-                                                .toDouble() <=
-                                            0
-                                        ? Colors.red
-                                        : Colors.green
-                                    : Colors.grey),
-                          ],
+                      ? dateAmar(
+                          himan!.marketData!.priceChangePercentage24HInCurrency,
+                          himan!.marketData!
+                              .priceChangePercentage24HInCurrency!["usd"]
+                              .toString(),
+                          himan!.marketData!
+                              .priceChangePercentage24HInCurrency!["usd"]!
+                              .toDouble(),
                         )
                       : showSelectedPrice == "7D"
-                          ? Row(
-                              children: [
-                                Text(
-                                    himan!.marketData!
-                                                    .priceChangePercentage7DInCurrency![
-                                                "usd"] !=
-                                            null
-                                        ? "% " +
-                                            himan!
-                                                .marketData!
-                                                .priceChangePercentage7DInCurrency![
-                                                    "usd"]
-                                                .toString()
-                                        : "تعیین نشده",
-                                    style: TextStyle(
-                                        color: himan!
-                                                    .marketData!
-                                                    .priceChangePercentage7DInCurrency![
-                                                        "usd"]!
-                                                    .toDouble() !=
-                                                null
-                                            ? himan!
-                                                        .marketData!
-                                                        .priceChangePercentage7DInCurrency![
-                                                            "usd"]!
-                                                        .toDouble() <=
-                                                    0
-                                                ? Colors.red
-                                                : Colors.green
-                                            : Colors.grey)),
-                                Icon(
-                                    himan!
-                                                .marketData!
-                                                .priceChangePercentage7DInCurrency![
-                                                    "usd"]!
-                                                .toDouble() !=
-                                            null
-                                        ? himan!
-                                                    .marketData!
-                                                    .priceChangePercentage7DInCurrency![
-                                                        "usd"]!
-                                                    .toDouble() <=
-                                                0
-                                            ? Icons.arrow_drop_down_rounded
-                                            : Icons.arrow_drop_up_rounded
-                                        : Icons.minimize,
-                                    color: himan!
-                                                .marketData!
-                                                .priceChangePercentage7DInCurrency![
-                                                    "usd"]!
-                                                .toDouble() !=
-                                            null
-                                        ? himan!
-                                                    .marketData!
-                                                    .priceChangePercentage7DInCurrency![
-                                                        "usd"]!
-                                                    .toDouble() <=
-                                                0
-                                            ? Colors.red
-                                            : Colors.green
-                                        : Colors.grey),
-                              ],
+                          ? dateAmar(
+                              himan!.marketData!
+                                  .priceChangePercentage7DInCurrency,
+                              himan!.marketData!
+                                  .priceChangePercentage7DInCurrency!["usd"]
+                                  .toString(),
+                              himan!.marketData!
+                                  .priceChangePercentage7DInCurrency!["usd"]!
+                                  .toDouble(),
                             )
                           : showSelectedPrice == "14D"
-                              ? Row(
-                                  children: [
-                                    Text(
-                                        himan!.marketData!
-                                                        .priceChangePercentage14DInCurrency![
-                                                    "usd"] !=
-                                                null
-                                            ? "% " +
-                                                himan!
-                                                    .marketData!
-                                                    .priceChangePercentage14DInCurrency![
-                                                        "usd"]
-                                                    .toString()
-                                            : "تعیین نشده",
-                                        style: TextStyle(
-                                            color: himan!
-                                                        .marketData!
-                                                        .priceChangePercentage14DInCurrency![
-                                                            "usd"]!
-                                                        .toDouble() !=
-                                                    null
-                                                ? himan!
-                                                            .marketData!
-                                                            .priceChangePercentage14DInCurrency![
-                                                                "usd"]!
-                                                            .toDouble() <=
-                                                        0
-                                                    ? Colors.red
-                                                    : Colors.green
-                                                : Colors.grey)),
-                                    Icon(
-                                        himan!
-                                                    .marketData!
-                                                    .priceChangePercentage14DInCurrency![
-                                                        "usd"]!
-                                                    .toDouble() !=
-                                                null
-                                            ? himan!
-                                                        .marketData!
-                                                        .priceChangePercentage14DInCurrency![
-                                                            "usd"]!
-                                                        .toDouble() <=
-                                                    0
-                                                ? Icons.arrow_drop_down_rounded
-                                                : Icons.arrow_drop_up_rounded
-                                            : Icons.minimize,
-                                        color: himan!
-                                                    .marketData!
-                                                    .priceChangePercentage14DInCurrency![
-                                                        "usd"]!
-                                                    .toDouble() !=
-                                                null
-                                            ? himan!
-                                                        .marketData!
-                                                        .priceChangePercentage14DInCurrency![
-                                                            "usd"]!
-                                                        .toDouble() <=
-                                                    0
-                                                ? Colors.red
-                                                : Colors.green
-                                            : Colors.grey),
-                                  ],
+                              ? dateAmar(
+                                  himan!.marketData!
+                                      .priceChangePercentage14DInCurrency,
+                                  himan!
+                                      .marketData!
+                                      .priceChangePercentage14DInCurrency![
+                                          "usd"]
+                                      .toString(),
+                                  himan!
+                                      .marketData!
+                                      .priceChangePercentage14DInCurrency![
+                                          "usd"]!
+                                      .toDouble(),
                                 )
                               : showSelectedPrice == "30D"
-                                  ? Row(
-                                      children: [
-                                        Text(
-                                            himan!
-                                                        .marketData!
-                                                        .priceChangePercentage30DInCurrency![
-                                                            "usd"]
-                                                        .toString() !=
-                                                    null
-                                                ? "% " +
-                                                    himan!
-                                                        .marketData!
-                                                        .priceChangePercentage30DInCurrency![
-                                                            "usd"]
-                                                        .toString()
-                                                : "تعیین نشده",
-                                            style: TextStyle(
-                                                color: himan!
-                                                            .marketData!
-                                                            .priceChangePercentage30DInCurrency![
-                                                                "usd"]!
-                                                            .toDouble() !=
-                                                        null
-                                                    ? himan!
-                                                                .marketData!
-                                                                .priceChangePercentage30DInCurrency![
-                                                                    "usd"]!
-                                                                .toDouble() <=
-                                                            0
-                                                        ? Colors.red
-                                                        : Colors.green
-                                                    : Colors.grey)),
-                                        Icon(
-                                            himan!
-                                                        .marketData!
-                                                        .priceChangePercentage30DInCurrency![
-                                                            "usd"]!
-                                                        .toDouble() !=
-                                                    null
-                                                ? himan!
-                                                            .marketData!
-                                                            .priceChangePercentage30DInCurrency![
-                                                                "usd"]!
-                                                            .toDouble() <=
-                                                        0
-                                                    ? Icons
-                                                        .arrow_drop_down_rounded
-                                                    : Icons
-                                                        .arrow_drop_up_rounded
-                                                : Icons.minimize,
-                                            color: himan!
-                                                        .marketData!
-                                                        .priceChangePercentage30DInCurrency![
-                                                            "usd"]!
-                                                        .toDouble() !=
-                                                    null
-                                                ? himan!
-                                                            .marketData!
-                                                            .priceChangePercentage30DInCurrency![
-                                                                "usd"]!
-                                                            .toDouble() <=
-                                                        0
-                                                    ? Colors.red
-                                                    : Colors.green
-                                                : Colors.grey),
-                                      ],
+                                  ? dateAmar(
+                                      himan!.marketData!
+                                          .priceChangePercentage30DInCurrency,
+                                      himan!
+                                          .marketData!
+                                          .priceChangePercentage30DInCurrency![
+                                              "usd"]
+                                          .toString(),
+                                      himan!
+                                          .marketData!
+                                          .priceChangePercentage30DInCurrency![
+                                              "usd"]!
+                                          .toDouble(),
                                     )
                                   : showSelectedPrice == "60D"
-                                      ? Row(
-                                          children: [
-                                            Text(
-                                                himan!.marketData!
-                                                                .priceChangePercentage60DInCurrency![
-                                                            "usd"] !=
-                                                        null
-                                                    ? "% " +
-                                                        himan!
-                                                            .marketData!
-                                                            .priceChangePercentage60DInCurrency![
-                                                                "usd"]
-                                                            .toString()
-                                                    : "تعیین نشده",
-                                                style: TextStyle(
-                                                    color: himan!
-                                                                .marketData!
-                                                                .priceChangePercentage60DInCurrency![
-                                                                    "usd"]!
-                                                                .toDouble() !=
-                                                            null
-                                                        ? himan!
-                                                                    .marketData!
-                                                                    .priceChangePercentage60DInCurrency![
-                                                                        "usd"]!
-                                                                    .toDouble() <=
-                                                                0
-                                                            ? Colors.red
-                                                            : Colors.green
-                                                        : Colors.grey)),
-                                            Icon(
-                                                himan!
-                                                            .marketData!
-                                                            .priceChangePercentage60DInCurrency![
-                                                                "usd"]!
-                                                            .toDouble() !=
-                                                        null
-                                                    ? himan!
-                                                                .marketData!
-                                                                .priceChangePercentage60DInCurrency![
-                                                                    "usd"]!
-                                                                .toDouble() <=
-                                                            0
-                                                        ? Icons
-                                                            .arrow_drop_down_rounded
-                                                        : Icons
-                                                            .arrow_drop_up_rounded
-                                                    : Icons.minimize,
-                                                color: himan!
-                                                            .marketData!
-                                                            .priceChangePercentage60DInCurrency![
-                                                                "usd"]!
-                                                            .toDouble() !=
-                                                        null
-                                                    ? himan!
-                                                                .marketData!
-                                                                .priceChangePercentage60DInCurrency![
-                                                                    "usd"]!
-                                                                .toDouble() <=
-                                                            0
-                                                        ? Colors.red
-                                                        : Colors.green
-                                                    : Colors.grey),
-                                          ],
+                                      ? dateAmar(
+                                          himan!.marketData!
+                                              .priceChangePercentage60DInCurrency,
+                                          himan!
+                                              .marketData!
+                                              .priceChangePercentage60DInCurrency![
+                                                  "usd"]
+                                              .toString(),
+                                          himan!
+                                              .marketData!
+                                              .priceChangePercentage60DInCurrency![
+                                                  "usd"]!
+                                              .toDouble(),
                                         )
                                       : showSelectedPrice == "200D"
-                                          ? Row(
-                                              children: [
-                                                Text(
-                                                  himan!.marketData!
-                                                                  .priceChangePercentage200DInCurrency![
-                                                              "usd"] !=
-                                                          null
-                                                      ? "% " +
-                                                          himan!
-                                                              .marketData!
-                                                              .priceChangePercentage200DInCurrency![
-                                                                  "usd"]
-                                                              .toString()
-                                                      : "تعیین نشده",
-                                                  style: TextStyle(
-                                                      color: himan!
-                                                                  .marketData!
-                                                                  .priceChangePercentage200DInCurrency![
-                                                                      "usd"]!
-                                                                  .toDouble() !=
-                                                              null
-                                                          ? himan!
-                                                                      .marketData!
-                                                                      .priceChangePercentage200DInCurrency![
-                                                                          "usd"]!
-                                                                      .toDouble() <=
-                                                                  0
-                                                              ? Colors.red
-                                                              : Colors.green
-                                                          : Colors.grey),
-                                                ),
-                                                Icon(
-                                                    himan!
-                                                                .marketData!
-                                                                .priceChangePercentage200DInCurrency![
-                                                                    "usd"]!
-                                                                .toDouble() !=
-                                                            null
-                                                        ? himan!
-                                                                    .marketData!
-                                                                    .priceChangePercentage200DInCurrency![
-                                                                        "usd"]!
-                                                                    .toDouble() <=
-                                                                0
-                                                            ? Icons
-                                                                .arrow_drop_down_rounded
-                                                            : Icons
-                                                                .arrow_drop_up_rounded
-                                                        : Icons.minimize,
-                                                    color: himan!
-                                                                .marketData!
-                                                                .priceChangePercentage200DInCurrency![
-                                                                    "usd"]!
-                                                                .toDouble() !=
-                                                            null
-                                                        ? himan!
-                                                                    .marketData!
-                                                                    .priceChangePercentage200DInCurrency![
-                                                                        "usd"]!
-                                                                    .toDouble() <=
-                                                                0
-                                                            ? Colors.red
-                                                            : Colors.green
-                                                        : Colors.grey),
-                                              ],
+                                          ? dateAmar(
+                                              himan!.marketData!
+                                                  .priceChangePercentage200DInCurrency,
+                                              himan!
+                                                  .marketData!
+                                                  .priceChangePercentage200DInCurrency![
+                                                      "usd"]
+                                                  .toString(),
+                                              himan!
+                                                  .marketData!
+                                                  .priceChangePercentage200DInCurrency![
+                                                      "usd"]!
+                                                  .toDouble(),
                                             )
                                           : showSelectedPrice == "1Y"
-                                              ? Row(
-                                                  children: [
-                                                    Text(
-                                                      himan!.marketData!
-                                                                      .priceChangePercentage1YInCurrency![
-                                                                  "usd"] !=
-                                                              null
-                                                          ? "% " +
-                                                              himan!
-                                                                  .marketData!
-                                                                  .priceChangePercentage1YInCurrency![
-                                                                      "usd"]
-                                                                  .toString()
-                                                          : "تعیین نشده",
-                                                      style: TextStyle(
-                                                          color: himan!
-                                                                      .marketData!
-                                                                      .priceChangePercentage1YInCurrency![
-                                                                          "usd"]!
-                                                                      .toDouble() !=
-                                                                  null
-                                                              ? himan!.marketData!
-                                                                          .priceChangePercentage1YInCurrency!["usd"]!
-                                                                          .toDouble() <=
-                                                                      0
-                                                                  ? Colors.red
-                                                                  : Colors.green
-                                                              : Colors.grey),
-                                                    ),
-                                                    Icon(
-                                                        himan!
-                                                                    .marketData!
-                                                                    .priceChangePercentage1YInCurrency![
-                                                                        "usd"]!
-                                                                    .toDouble() !=
-                                                                null
-                                                            ? himan!
-                                                                        .marketData!
-                                                                        .priceChangePercentage1YInCurrency![
-                                                                            "usd"]!
-                                                                        .toDouble() <=
-                                                                    0
-                                                                ? Icons
-                                                                    .arrow_drop_down_rounded
-                                                                : Icons
-                                                                    .arrow_drop_up_rounded
-                                                            : Icons.minimize,
-                                                        color: himan!
-                                                                    .marketData!
-                                                                    .priceChangePercentage1YInCurrency![
-                                                                        "usd"]!
-                                                                    .toDouble() !=
-                                                                null
-                                                            ? himan!.marketData!
-                                                                        .priceChangePercentage1YInCurrency!["usd"]!
-                                                                        .toDouble() <=
-                                                                    0
-                                                                ? Colors.red
-                                                                : Colors.green
-                                                            : Colors.grey),
-                                                  ],
+                                              ? dateAmar(
+                                                  himan!.marketData!
+                                                      .priceChangePercentage1YInCurrency,
+                                                  himan!
+                                                      .marketData!
+                                                      .priceChangePercentage1YInCurrency![
+                                                          "usd"]
+                                                      .toString(),
+                                                  himan!
+                                                      .marketData!
+                                                      .priceChangePercentage1YInCurrency![
+                                                          "usd"]!
+                                                      .toDouble(),
                                                 )
                                               : const Text(""),
             ],
