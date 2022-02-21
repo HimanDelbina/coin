@@ -6,6 +6,7 @@ import 'package:coin/provider/theme.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:persian_number_utility/src/extensions.dart';
 import 'package:provider/provider.dart';
 
 import 'coin_select.dart';
@@ -241,9 +242,9 @@ class _Coin10FirstState extends State<Coin10First> {
                                                       Row(
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
-                                                                .end,
+                                                                .start,
                                                         children: [
-                                                          const Spacer(),
+                                                          // const Spacer(),
                                                           value.map[index]
                                                                       .name !=
                                                                   null
@@ -263,7 +264,7 @@ class _Coin10FirstState extends State<Coin10First> {
                                                                               .bold),
                                                                 )
                                                               : Text(
-                                                                  "تعیین نشده",
+                                                                  "specified".tr(),
                                                                   style:
                                                                       TextStyle(
                                                                     color: theme
@@ -273,7 +274,7 @@ class _Coin10FirstState extends State<Coin10First> {
                                                       ),
                                                       Row(
                                                         children: [
-                                                          const Spacer(),
+                                                          // const Spacer(),
                                                           value.map[index]
                                                                       .currentPrice !=
                                                                   null
@@ -283,7 +284,9 @@ class _Coin10FirstState extends State<Coin10First> {
                                                                           .map[
                                                                               index]
                                                                           .currentPrice
-                                                                          .toString(),
+                                                                          .toString()
+                                                                          .seRagham()
+                                                                          .toPersianDigit(),
                                                                   style:
                                                                       TextStyle(
                                                                     fontSize:
@@ -296,7 +299,7 @@ class _Coin10FirstState extends State<Coin10First> {
                                                                   ),
                                                                 )
                                                               : Text(
-                                                                  "تعیین نشده",
+                                                                  "specified".tr(),
                                                                   style:
                                                                       TextStyle(
                                                                     color: theme
@@ -308,14 +311,16 @@ class _Coin10FirstState extends State<Coin10First> {
                                                   ),
                                                   Row(
                                                     children: [
-                                                      const Spacer(),
+                                                      // const Spacer(),
                                                       value.map[index]
                                                                   .marketCapChangePercentage24H !=
                                                               null
                                                           ? Text(
                                                               value.map[index]
                                                                   .marketCapChangePercentage24H
-                                                                  .toString(),
+                                                                  .toString()
+                                                                  .seRagham()
+                                                                  .toPersianDigit(),
                                                               style: TextStyle(
                                                                 fontSize: 12.0,
                                                                 fontWeight:
@@ -331,7 +336,7 @@ class _Coin10FirstState extends State<Coin10First> {
                                                                         .green,
                                                               ),
                                                             )
-                                                          : Text("تعیین نشده",
+                                                          : Text("specified".tr(),
                                                               style: TextStyle(
                                                                 color: theme
                                                                     .textColor,

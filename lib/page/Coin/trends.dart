@@ -3,6 +3,7 @@ import 'package:coin/provider/theme.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:persian_number_utility/src/extensions.dart';
 import 'package:provider/provider.dart';
 
 class Trends extends StatefulWidget {
@@ -154,7 +155,8 @@ class _TrendsState extends State<Trends> {
                                                                       FontWeight
                                                                           .bold),
                                                             )
-                                                          : Text("تعیین نشده",
+                                                          : Text(
+                                                              "specified".tr(),
                                                               style: TextStyle(
                                                                   color: theme
                                                                       .textColor)),
@@ -185,11 +187,11 @@ class _TrendsState extends State<Trends> {
                                                   Column(
                                                     children: [
                                                       Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .end,
+                                                        // crossAxisAlignment:
+                                                        //     CrossAxisAlignment
+                                                        //         .start,
                                                         children: [
-                                                          const Spacer(),
+                                                          // const Spacer(),
                                                           value
                                                                       .map!
                                                                       .coins![
@@ -197,25 +199,31 @@ class _TrendsState extends State<Trends> {
                                                                       .item!
                                                                       .name !=
                                                                   null
-                                                              ? Text(
-                                                                  value
-                                                                      .map!
-                                                                      .coins![
-                                                                          index]
-                                                                      .item!
-                                                                      .name
-                                                                      .toString(),
-                                                                  style: TextStyle(
-                                                                      color: theme
-                                                                          .textColor,
-                                                                      fontSize:
-                                                                          13.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold),
-                                                                )
+                                                              ? Flexible(
+                                                                flex: 1,
+                                                                child: Text(
+                                                                  
+                                                                    value
+                                                                        .map!
+                                                                        .coins![
+                                                                            index]
+                                                                        .item!
+                                                                        .name
+                                                                        .toString(),
+                                                                        softWrap: true,
+                                                                    style: TextStyle(
+                                                                        color: theme
+                                                                            .textColor,
+                                                                        fontSize:
+                                                                            13.0,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold),
+                                                                  ),
+                                                              )
                                                               : Text(
-                                                                  "تعیین نشده",
+                                                                  "specified"
+                                                                      .tr(),
                                                                   style: TextStyle(
                                                                       color: theme
                                                                           .textColor)),
@@ -247,7 +255,9 @@ class _TrendsState extends State<Trends> {
                                                                           index]
                                                                       .item!
                                                                       .marketCapRank
-                                                                      .toString(),
+                                                                      .toString()
+                                                                      .seRagham()
+                                                                      .toPersianDigit(),
                                                                   style:
                                                                       TextStyle(
                                                                     color: theme
@@ -260,7 +270,8 @@ class _TrendsState extends State<Trends> {
                                                                   ),
                                                                 )
                                                               : Text(
-                                                                  "تعیین نشده",
+                                                                  "specified"
+                                                                      .tr(),
                                                                   style: TextStyle(
                                                                       color: theme
                                                                           .textColor)),
