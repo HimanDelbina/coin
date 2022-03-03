@@ -2,12 +2,25 @@ import 'dart:convert';
 import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:coin/model/olhc_model.dart';
 import 'package:coin/model/select_coin_model.dart';
+import 'package:coin/page/Coin/Chart/line_chart.dart';
 import 'package:coin/page/Coin/Chart/olhc_page.dart';
 import 'package:easy_localization/src/public_ext.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+class AverageData {
+  String? x;
+  double? y;
+  AverageData(this.x, this.y);
+}
+
+dynamic getAverage(double data) {
+  List<AverageData> averageData = <AverageData>[AverageData("ave", data)];
+}
 
 class CoinSelect extends StatefulWidget {
   String? id;
@@ -239,15 +252,22 @@ class _CoinSelectState extends State<CoinSelect> {
                             child: chartShoe == false
                                 ? Sparkline(
                                     data: chartData,
-                                    lineWidth: 1.5,
-                                    lineColor: Colors.green,
-                                    // sharpCorners: true,
-                                    // enableGridLines: true,
-                                    // gridLineAmount: 8,
-                                    // gridLineColor: Colors.grey.withOpacity(0.4),
-                                    // gridLineLabelPrecision: 1,
-                                    // gridLineLabelColor: Colors.grey,
-                                    // averageLabel: true,
+                                    lineWidth: 2,
+                                    lineColor: widget.changePrice! <= 0
+                                        ? Colors.red
+                                        : Colors.green,
+                                    fillMode: FillMode.below,
+                                    fillGradient: LinearGradient(
+                                        colors: [
+                                          widget.changePrice! <= 0
+                                              ? Colors.red.withOpacity(0.3)
+                                              : Colors.green.withOpacity(0.3),
+                                          widget.changePrice! <= 0
+                                              ? Colors.red.withOpacity(0.01)
+                                              : Colors.green.withOpacity(0.01),
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter),
                                     averageLine: true,
                                     useCubicSmoothing: true,
                                     cubicSmoothingFactor: 0.2,
@@ -281,7 +301,7 @@ class _CoinSelectState extends State<CoinSelect> {
                                   children: [
                                     Text(
                                       "least".tr(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.blueGrey,
                                           fontSize: 13.0),
                                     ),
@@ -360,17 +380,21 @@ class _CoinSelectState extends State<CoinSelect> {
                                     ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0),
-                                  child: Container(
-                                      alignment: Alignment.topCenter,
-                                      child: LinearProgressIndicator(
-                                        color: Colors.blueGrey,
-                                        backgroundColor: Colors.red,
-                                        minHeight: 6,
-                                        value: averageValue,
-                                      )),
+                                SliderTheme(
+                                  data: SliderTheme.of(context).copyWith(
+                                    trackHeight: 2.0,
+                                    minThumbSeparation: 0.0,
+                                    activeTrackColor: Colors.white,
+                                    inactiveTrackColor: Colors.red,
+                                    thumbShape: const RoundSliderThumbShape(
+                                        enabledThumbRadius: 0),
+                                  ),
+                                  child: Slider(
+                                    value: averageValue!,
+                                    onChanged: null,
+                                    min: valueLow24!,
+                                    max: valueHigh24!,
+                                  ),
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -444,7 +468,6 @@ class _CoinSelectState extends State<CoinSelect> {
       var x = json.decode(utf8.decode(response.bodyBytes));
       setState(() {
         himan = SelectCoinModel.fromJson(x);
-        print(himan);
         chartData = himan!.marketData!.sparkline7D!.price;
         valueHigh24 = himan!.marketData!.high24H!["usd"];
         valueLow24 = himan!.marketData!.low24H!["usd"];
@@ -576,7 +599,7 @@ class _CoinSelectState extends State<CoinSelect> {
                 dateAmarShow("24H", "last24Hour".tr().toPersianDigit()),
                 dateAmarShow("7D", "last7Day".tr().toPersianDigit()),
                 dateAmarShow("14D", "last14Day".tr().toPersianDigit()),
-                dateAmarShow("30D", "3last30Day".tr().toPersianDigit()),
+                dateAmarShow("30D", "last30Day".tr().toPersianDigit()),
                 dateAmarShow("60D", "last60Day".tr().toPersianDigit()),
                 dateAmarShow("200D", "last200Day".tr().toPersianDigit()),
                 dateAmarShow("1Y", "last1Year".tr().toPersianDigit()),
