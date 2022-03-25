@@ -2,8 +2,10 @@ import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:coin/model/coin_model.dart';
 import 'package:coin/provider/getchart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
+import 'package:persian_number_utility/src/extensions.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/src/provider.dart';
 
@@ -92,107 +94,176 @@ class _ChartState extends State<Chart> {
                           )
                         : value.error
                             ? Text(value.errorMessage.toString())
-                            : ListView.builder(
-                                itemCount: value.map.length,
-                                itemBuilder: (context, index) {
-                                  var y =
-                                      value.map[index].sparklineIn7D!.price!;
-                                  var x = y
-                                      .getRange(y.length - 30, y.length)
-                                      .toList();
-                                  return Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15.0, vertical: 5.0),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => CoinSelect(
-                                                      changePrice: value
-                                                          .map[index]
-                                                          .marketCapChangePercentage24H!,
-                                                      price: value.map[index]
-                                                          .currentPrice,
-                                                      id: value.map[index].id
-                                                          .toString()),
-                                                ));
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                            : AnimationLimiter(
+                                child: ListView.builder(
+                                  itemCount: value.map.length,
+                                  itemBuilder: (context, index) {
+                                    var y =
+                                        value.map[index].sparklineIn7D!.price!;
+                                    var x = y
+                                        .getRange(y.length - 30, y.length)
+                                        .toList();
+                                    return AnimationConfiguration.staggeredList(
+                                      position: index,
+                                      duration:
+                                          const Duration(milliseconds: 375),
+                                      child: SlideAnimation(
+                                        verticalOffset: 50.0,
+                                        child: FadeInAnimation(
+                                          child: Column(
                                             children: [
-                                              Expanded(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        value.map[index]
-                                                                    .currentPrice !=
-                                                                null
-                                                            ? Text(
-                                                                r'$ ' +
-                                                                    value
-                                                                        .map[
-                                                                            index]
-                                                                        .currentPrice
-                                                                        .toString(),
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontSize:
-                                                                      14.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .black,
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 15.0,
+                                                        vertical: 5.0),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) => CoinSelect(
+                                                              changePrice: value
+                                                                  .map[index]
+                                                                  .marketCapChangePercentage24H!,
+                                                              price: value
+                                                                  .map[index]
+                                                                  .currentPrice,
+                                                              id: value
+                                                                  .map[index].id
+                                                                  .toString()),
+                                                        ));
+                                                  },
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Column(
+                                                              children: [
+                                                                value.map[index]
+                                                                            .currentPrice !=
+                                                                        null
+                                                                    ? Text(
+                                                                        r'$ ' +
+                                                                            value.map[index].currentPrice.toString().toPersianDigit().seRagham(),
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          fontSize:
+                                                                              14.0,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          color:
+                                                                              Colors.black,
+                                                                        ),
+                                                                      )
+                                                                    : const Text(
+                                                                        "تعیین نشده")
+                                                              ],
+                                                            ),
+                                                            Container(
+                                                              height: myHeight *
+                                                                  0.07,
+                                                              width:
+                                                                  myWidth * 0.2,
+                                                              child: Sparkline(
+                                                                data: x,
+                                                                lineWidth: 1.5,
+                                                                fillGradient:
+                                                                    LinearGradient(
+                                                                  begin: Alignment
+                                                                      .topCenter,
+                                                                  end: Alignment
+                                                                      .bottomCenter,
+                                                                  stops: const [
+                                                                    0.0,
+                                                                    0.7
+                                                                  ],
+                                                                  colors: value
+                                                                              .map[index]
+                                                                              .marketCapChangePercentage24H !=
+                                                                          null
+                                                                      ? value.map[index].marketCapChangePercentage24H! <= 0
+                                                                          ? redColor
+                                                                          : greenColor
+                                                                      : greyColor,
                                                                 ),
-                                                              )
-                                                            : const Text(
-                                                                "تعیین نشده")
-                                                      ],
-                                                    ),
-                                                    Container(
-                                                      height: myHeight * 0.07,
-                                                      width: myWidth * 0.2,
-                                                      child: Sparkline(
-                                                        data: x,
-                                                        lineWidth: 1.5,
-                                                        fillGradient:
-                                                            LinearGradient(
-                                                          begin: Alignment
-                                                              .topCenter,
-                                                          end: Alignment
-                                                              .bottomCenter,
-                                                          stops: const [
-                                                            0.0,
-                                                            0.7
+                                                                fillMode:
+                                                                    FillMode
+                                                                        .below,
+                                                                useCubicSmoothing:
+                                                                    true,
+                                                                cubicSmoothingFactor:
+                                                                    0.4,
+                                                                enableThreshold:
+                                                                    true,
+                                                                lineColor: value
+                                                                            .map[
+                                                                                index]
+                                                                            .marketCapChangePercentage24H !=
+                                                                        null
+                                                                    ? value.map[index].marketCapChangePercentage24H! <=
+                                                                            0
+                                                                        ? Colors
+                                                                            .red
+                                                                        : Colors
+                                                                            .green
+                                                                    : Colors
+                                                                        .grey,
+                                                              ),
+                                                            ),
                                                           ],
-                                                          colors: value
-                                                                      .map[
-                                                                          index]
-                                                                      .marketCapChangePercentage24H !=
-                                                                  null
-                                                              ? value.map[index]
-                                                                          .marketCapChangePercentage24H! <=
-                                                                      0
-                                                                  ? redColor
-                                                                  : greenColor
-                                                              : greyColor,
                                                         ),
-                                                        fillMode:
-                                                            FillMode.below,
-                                                        useCubicSmoothing: true,
-                                                        cubicSmoothingFactor:
-                                                            0.4,
-                                                        enableThreshold: true,
-                                                        lineColor: value
-                                                                    .map[index]
+                                                      ),
+                                                      ShowOne(
+                                                        value.map[index]
+                                                                    .image !=
+                                                                null
+                                                            ? value.map[index]
+                                                                .image!
+                                                            : "",
+                                                        value.map[index].name !=
+                                                                null
+                                                            ? value.map[index]
+                                                                .name!
+                                                            : "",
+                                                        value.map[index]
+                                                                    .symbol !=
+                                                                null
+                                                            ? value.map[index]
+                                                                .symbol!
+                                                            : "",
+                                                        value.map[index]
+                                                                    .marketCapRank !=
+                                                                null
+                                                            ? value.map[index]
+                                                                .marketCapRank!
+                                                            : 0,
+                                                        value.map[index]
+                                                                    .marketCapChangePercentage24H !=
+                                                                null
+                                                            ? value.map[index]
+                                                                .marketCapChangePercentage24H!
+                                                            : 0,
+                                                        value.map[index]
+                                                                    .marketCapChangePercentage24H !=
+                                                                null
+                                                            ? value.map[index]
+                                                                        .marketCapChangePercentage24H! <=
+                                                                    0
+                                                                ? Icons
+                                                                    .arrow_drop_down_rounded
+                                                                : Icons
+                                                                    .arrow_drop_up_rounded
+                                                            : Icons
+                                                                .minimize_sharp,
+                                                        value.map[index]
                                                                     .marketCapChangePercentage24H !=
                                                                 null
                                                             ? value.map[index]
@@ -202,61 +273,19 @@ class _ChartState extends State<Chart> {
                                                                 : Colors.green
                                                             : Colors.grey,
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                              ShowOne(
-                                                value.map[index].image != null
-                                                    ? value.map[index].image!
-                                                    : "",
-                                                value.map[index].name != null
-                                                    ? value.map[index].name!
-                                                    : "",
-                                                value.map[index].symbol != null
-                                                    ? value.map[index].symbol!
-                                                    : "",
-                                                value.map[index]
-                                                            .marketCapRank !=
-                                                        null
-                                                    ? value.map[index]
-                                                        .marketCapRank!
-                                                    : 0,
-                                                value.map[index]
-                                                            .marketCapChangePercentage24H !=
-                                                        null
-                                                    ? value.map[index]
-                                                        .marketCapChangePercentage24H!
-                                                    : 0,
-                                                value.map[index]
-                                                            .marketCapChangePercentage24H !=
-                                                        null
-                                                    ? value.map[index]
-                                                                .marketCapChangePercentage24H! <=
-                                                            0
-                                                        ? Icons
-                                                            .arrow_drop_down_rounded
-                                                        : Icons
-                                                            .arrow_drop_up_rounded
-                                                    : Icons.minimize_sharp,
-                                                value.map[index]
-                                                            .marketCapChangePercentage24H !=
-                                                        null
-                                                    ? value.map[index]
-                                                                .marketCapChangePercentage24H! <=
-                                                            0
-                                                        ? Colors.red
-                                                        : Colors.green
-                                                    : Colors.grey,
-                                              ),
+                                              const Divider(
+                                                  indent: 10, endIndent: 10),
                                             ],
                                           ),
                                         ),
                                       ),
-                                      const Divider(indent: 10, endIndent: 10),
-                                    ],
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               );
                   },
                 ),
@@ -289,7 +318,7 @@ class _ChartState extends State<Chart> {
                 children: [
                   // const Spacer(),
                   Text(
-                    darsad.toStringAsFixed(2) + " %",
+                    " % " + darsad.toStringAsFixed(2).toPersianDigit(),
                     style: const TextStyle(
                       fontSize: 12.0,
                       fontWeight: FontWeight.bold,

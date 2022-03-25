@@ -7,6 +7,7 @@ import 'package:coin/page/Coin/Chart/olhc_page.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
@@ -123,210 +124,252 @@ class _CoinSelectState extends State<CoinSelect> {
                     ),
                   ),
                   Expanded(
-                    child: ListView(
-                      children: [
-                        Container(
-                          height: myWidth * 0.2,
-                          width: myWidth,
-                          // color: Colors.amber,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Tooltip(
-                                  message: "percentage24".tr(),
-                                  preferBelow: false,
-                                  triggerMode: TooltipTriggerMode.longPress,
-                                  waitDuration: const Duration(seconds: 3),
-                                  child: Container(
-                                    height: myHeight * 0.045,
-                                    width: myWidth * 0.2,
-                                    decoration: BoxDecoration(
-                                        color: widget.changePrice! <= 0
-                                            ? Colors.red
-                                            : Colors.green,
-                                        borderRadius:
-                                            BorderRadiusDirectional.circular(
-                                                5)),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '% ' +
-                                              widget.changePrice!
-                                                  .toStringAsFixed(2)
-                                                  .toPersianDigit(),
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                        Icon(
-                                          widget.changePrice! <= 0
-                                              ? Icons.arrow_drop_down_rounded
-                                              : Icons.arrow_drop_up_rounded,
-                                          color: Colors.white,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const Spacer(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                    child: AnimationLimiter(
+                      child: ListView(
+                        children: AnimationConfiguration.toStaggeredList(
+                          duration: const Duration(milliseconds: 600),
+                          childAnimationBuilder: (widget) => SlideAnimation(
+                            horizontalOffset: 50.0,
+                            child: FadeInAnimation(
+                              child: widget,
+                            ),
+                          ),
+                          children: [
+                            Container(
+                              height: myWidth * 0.2,
+                              width: myWidth,
+                              // color: Colors.amber,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text(himan!.name.toString()),
-                                    Text(
-                                      r'$ ' +
-                                          widget.price
-                                              .toString()
-                                              .seRagham()
-                                              .toPersianDigit(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20.0),
+                                    Tooltip(
+                                      message: "percentage24".tr(),
+                                      preferBelow: false,
+                                      triggerMode: TooltipTriggerMode.longPress,
+                                      waitDuration: const Duration(seconds: 3),
+                                      child: Container(
+                                        height: myHeight * 0.045,
+                                        width: myWidth * 0.2,
+                                        decoration: BoxDecoration(
+                                            color: widget.changePrice! <= 0
+                                                ? Colors.red
+                                                : Colors.green,
+                                            borderRadius:
+                                                BorderRadiusDirectional
+                                                    .circular(5)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            widget.changePrice! != null
+                                                ? Text(
+                                                    '% ' +
+                                                        widget.changePrice!
+                                                            .toStringAsFixed(2)
+                                                            .toPersianDigit(),
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.white),
+                                                  )
+                                                : const Text("data"),
+                                            widget.changePrice! != null
+                                                ? Icon(
+                                                    widget.changePrice! <= 0
+                                                        ? Icons
+                                                            .arrow_drop_down_rounded
+                                                        : Icons
+                                                            .arrow_drop_up_rounded,
+                                                    color: Colors.white,
+                                                  )
+                                                : const Text("data")
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        himan!.name != null
+                                            ? Text(himan!.name.toString())
+                                            : const Text("data"),
+                                        widget.price != null
+                                            ? Text(
+                                                r'$ ' +
+                                                    widget.price
+                                                        .toString()
+                                                        .seRagham()
+                                                        .toPersianDigit(),
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20.0),
+                                              )
+                                            : const Text("data"),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 5),
-                          child: Container(
-                            height: myHeight * 0.06,
-                            width: myWidth,
-                            decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.1),
-                                borderRadius:
-                                    BorderRadiusDirectional.circular(5)),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0, vertical: 5.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        chartShoe = !chartShoe;
-                                      });
-                                    },
-                                    child: chartShoe == false
-                                        ? Container(
-                                            height: myHeight * 0.035,
-                                            width: myWidth * 0.05,
-                                            decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                    fit: BoxFit.fill,
-                                                    image: AssetImage(
-                                                        "assets/icon/candle.png"))),
-                                          )
-                                        : Container(
-                                            height: myHeight * 0.035,
-                                            width: myWidth * 0.05,
-                                            decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                    fit: BoxFit.fill,
-                                                    image: AssetImage(
-                                                        "assets/icon/line.png"))),
-                                          ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Container(
-                            height: myHeight * 0.3,
-                            width: myWidth,
-                            decoration: BoxDecoration(
-                                // color: Colors.grey.withOpacity(0.1),
-                                borderRadius:
-                                    BorderRadiusDirectional.circular(5)),
-                            child: chartShoe == false
-                                ? Sparkline(
-                                    data: chartData,
-                                    lineWidth: 2,
-                                    lineColor: widget.changePrice! <= 0
-                                        ? Colors.red
-                                        : Colors.green,
-                                    fillMode: FillMode.below,
-                                    fillGradient: LinearGradient(
-                                        colors: [
-                                          widget.changePrice! <= 0
-                                              ? Colors.red.withOpacity(0.3)
-                                              : Colors.green.withOpacity(0.3),
-                                          widget.changePrice! <= 0
-                                              ? Colors.red.withOpacity(0.01)
-                                              : Colors.green.withOpacity(0.01),
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter),
-                                    averageLine: true,
-                                    useCubicSmoothing: true,
-                                    cubicSmoothingFactor: 0.2,
-                                    enableThreshold: true,
-                                  )
-                                : const OLHCPage(),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 5),
-                          child: Container(
-                            width: myWidth,
-                            child: Column(
-                              children: [
-                                Row(
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 5),
+                              child: Container(
+                                height: myHeight * 0.06,
+                                width: myWidth,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    borderRadius:
+                                        BorderRadiusDirectional.circular(5)),
+                                child: Row(
                                   children: [
-                                    Text(
-                                      "statistics".tr(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18.0),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0, vertical: 5.0),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            chartShoe = !chartShoe;
+                                          });
+                                        },
+                                        child: chartShoe == false
+                                            ? Container(
+                                                height: myHeight * 0.035,
+                                                width: myWidth * 0.05,
+                                                decoration: const BoxDecoration(
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: AssetImage(
+                                                            "assets/icon/candle.png"))),
+                                              )
+                                            : Container(
+                                                height: myHeight * 0.035,
+                                                width: myWidth * 0.05,
+                                                decoration: const BoxDecoration(
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: AssetImage(
+                                                            "assets/icon/line.png"))),
+                                              ),
+                                      ),
                                     )
                                   ],
                                 ),
-                                const Divider(),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Container(
+                                height: myHeight * 0.3,
+                                width: myWidth,
+                                decoration: BoxDecoration(
+                                    // color: Colors.grey.withOpacity(0.1),
+                                    borderRadius:
+                                        BorderRadiusDirectional.circular(5)),
+                                child: chartShoe == false
+                                    ? Sparkline(
+                                        data: chartData,
+                                        lineWidth: 2,
+                                        lineColor: widget.changePrice! <= 0
+                                            ? Colors.red
+                                            : Colors.green,
+                                        fillMode: FillMode.below,
+                                        fillGradient: LinearGradient(
+                                            colors: [
+                                              widget.changePrice! <= 0
+                                                  ? Colors.red.withOpacity(0.3)
+                                                  : Colors.green
+                                                      .withOpacity(0.3),
+                                              widget.changePrice! <= 0
+                                                  ? Colors.red.withOpacity(0.01)
+                                                  : Colors.green
+                                                      .withOpacity(0.01),
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter),
+                                        averageLine: true,
+                                        useCubicSmoothing: true,
+                                        cubicSmoothingFactor: 0.2,
+                                        enableThreshold: true,
+                                      )
+                                    : const OLHCPage(),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15.0, vertical: 5),
+                              child: Container(
+                                width: myWidth,
+                                child: Column(
                                   children: [
-                                    Text(
-                                      "least".tr(),
-                                      style: const TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontSize: 13.0),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "statistics".tr(),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0),
+                                        )
+                                      ],
                                     ),
-                                    Container(
-                                      // height: myHeight * 0.05,
-                                      width: myWidth * 0.35,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey.withOpacity(0.2),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  color: Colors.white,
-                                                ),
-                                                child: Tooltip(
-                                                  message: "average24".tr(),
+                                    const Divider(),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "least".tr(),
+                                          style: const TextStyle(
+                                              color: Colors.blueGrey,
+                                              fontSize: 13.0),
+                                        ),
+                                        Container(
+                                          // height: myHeight * 0.05,
+                                          width: myWidth * 0.35,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.withOpacity(0.2),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      color: Colors.white,
+                                                    ),
+                                                    child: Tooltip(
+                                                      message: "average24".tr(),
+                                                      preferBelow: false,
+                                                      waitDuration:
+                                                          const Duration(
+                                                              seconds: 2),
+                                                      child: const Padding(
+                                                        padding:
+                                                            EdgeInsets.all(3.0),
+                                                        child: Text(
+                                                          "24H",
+                                                          style: TextStyle(
+                                                              fontSize: 11.0),
+                                                        ),
+                                                      ),
+                                                    )),
+                                                Tooltip(
+                                                  message: "average1Day".tr(),
                                                   preferBelow: false,
                                                   waitDuration: const Duration(
                                                       seconds: 2),
@@ -334,110 +377,99 @@ class _CoinSelectState extends State<CoinSelect> {
                                                     padding:
                                                         EdgeInsets.all(3.0),
                                                     child: Text(
-                                                      "24H",
+                                                      "1D",
                                                       style: TextStyle(
                                                           fontSize: 11.0),
                                                     ),
                                                   ),
-                                                )),
-                                            Tooltip(
-                                              message: "average1Day".tr(),
-                                              preferBelow: false,
-                                              waitDuration:
-                                                  const Duration(seconds: 2),
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(3.0),
-                                                child: Text(
-                                                  "1D",
-                                                  style:
-                                                      TextStyle(fontSize: 11.0),
                                                 ),
-                                              ),
-                                            ),
-                                            Tooltip(
-                                              message: "average7Day".tr(),
-                                              preferBelow: false,
-                                              waitDuration:
-                                                  const Duration(seconds: 2),
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(3.0),
-                                                child: Text(
-                                                  "7D",
-                                                  style:
-                                                      TextStyle(fontSize: 11.0),
+                                                Tooltip(
+                                                  message: "average7Day".tr(),
+                                                  preferBelow: false,
+                                                  waitDuration: const Duration(
+                                                      seconds: 2),
+                                                  child: const Padding(
+                                                    padding:
+                                                        EdgeInsets.all(3.0),
+                                                    child: Text(
+                                                      "7D",
+                                                      style: TextStyle(
+                                                          fontSize: 11.0),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
-                                          ],
+                                          ),
                                         ),
+                                        Text(
+                                          "most".tr(),
+                                          style: const TextStyle(
+                                              color: Colors.blueGrey,
+                                              fontSize: 13.0),
+                                        ),
+                                      ],
+                                    ),
+                                    SliderTheme(
+                                      data: SliderTheme.of(context).copyWith(
+                                        trackHeight: 2.0,
+                                        minThumbSeparation: 0.0,
+                                        activeTrackColor: Colors.white,
+                                        inactiveTrackColor: Colors.red,
+                                        thumbShape: const RoundSliderThumbShape(
+                                            enabledThumbRadius: 0),
+                                      ),
+                                      child: Slider(
+                                        value: averageValue!,
+                                        onChanged: null,
+                                        min: valueLow24!,
+                                        max: valueHigh24!,
                                       ),
                                     ),
-                                    Text(
-                                      "most".tr(),
-                                      style: const TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontSize: 13.0),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        himan!.marketData!.low24H != null
+                                            ? Text(
+                                                r'$ ' +
+                                                    himan!.marketData!
+                                                        .low24H!["usd"]
+                                                        .toString()
+                                                        .seRagham()
+                                                        .toPersianDigit(),
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12.0))
+                                            : Text("specified".tr()),
+                                        himan!.marketData!.high24H != null
+                                            ? Text(
+                                                r'$ ' +
+                                                    himan!.marketData!
+                                                        .high24H!["usd"]
+                                                        .toString()
+                                                        .seRagham()
+                                                        .toPersianDigit(),
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12.0))
+                                            : Text("specified".tr()),
+                                      ],
                                     ),
+                                    const Divider(),
+                                    amar(),
+                                    const SizedBox(height: 30.0),
+                                    // const Divider(),
+                                    AmarChangePrice(),
                                   ],
                                 ),
-                                SliderTheme(
-                                  data: SliderTheme.of(context).copyWith(
-                                    trackHeight: 2.0,
-                                    minThumbSeparation: 0.0,
-                                    activeTrackColor: Colors.white,
-                                    inactiveTrackColor: Colors.red,
-                                    thumbShape: const RoundSliderThumbShape(
-                                        enabledThumbRadius: 0),
-                                  ),
-                                  child: Slider(
-                                    value: averageValue!,
-                                    onChanged: null,
-                                    min: valueLow24!,
-                                    max: valueHigh24!,
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    himan!.marketData!.low24H != null
-                                        ? Text(
-                                            r'$ ' +
-                                                himan!
-                                                    .marketData!.low24H!["usd"]
-                                                    .toString()
-                                                    .seRagham()
-                                                    .toPersianDigit(),
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 12.0))
-                                        : Text("specified".tr()),
-                                    himan!.marketData!.high24H != null
-                                        ? Text(
-                                            r'$ ' +
-                                                himan!
-                                                    .marketData!.high24H!["usd"]
-                                                    .toString()
-                                                    .seRagham()
-                                                    .toPersianDigit(),
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 12.0))
-                                        : Text("specified".tr()),
-                                  ],
-                                ),
-                                const Divider(),
-                                amar(),
-                                const SizedBox(height: 30.0),
-                                // const Divider(),
-                                AmarChangePrice(),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                  )
                 ],
               )
             : Center(
@@ -539,17 +571,19 @@ class _CoinSelectState extends State<CoinSelect> {
                         : Colors.grey),
               )
             : Text("rank".tr()),
-        Icon(
-            ifColor != null
-                ? ifColor <= 0
-                    ? Icons.arrow_drop_down_rounded
-                    : Icons.arrow_drop_up_rounded
-                : Icons.minimize,
-            color: ifColor != null
-                ? ifColor <= 0
-                    ? Colors.red
-                    : Colors.green
-                : Colors.grey),
+        ifData != null
+            ? Icon(
+                ifColor != null
+                    ? ifColor <= 0
+                        ? Icons.arrow_drop_down_rounded
+                        : Icons.arrow_drop_up_rounded
+                    : Icons.minimize,
+                color: ifColor != null
+                    ? ifColor <= 0
+                        ? Colors.red
+                        : Colors.green
+                    : Colors.grey)
+            : const Icon(Icons.no_accounts),
       ],
     );
   }
@@ -618,7 +652,8 @@ class _CoinSelectState extends State<CoinSelect> {
               ),
               showSelectedPrice == "1H"
                   ? dateAmar(
-                      himan!.marketData!.priceChangePercentage1HInCurrency,
+                      himan!.marketData!
+                          .priceChangePercentage1HInCurrency!["usd"],
                       himan!
                           .marketData!.priceChangePercentage1HInCurrency!["usd"]
                           .toString()
@@ -629,7 +664,8 @@ class _CoinSelectState extends State<CoinSelect> {
                     )
                   : showSelectedPrice == "24H"
                       ? dateAmar(
-                          himan!.marketData!.priceChangePercentage24HInCurrency,
+                          himan!.marketData!
+                              .priceChangePercentage24HInCurrency!["usd"],
                           himan!.marketData!
                               .priceChangePercentage24HInCurrency!["usd"]
                               .toString()
@@ -641,7 +677,7 @@ class _CoinSelectState extends State<CoinSelect> {
                       : showSelectedPrice == "7D"
                           ? dateAmar(
                               himan!.marketData!
-                                  .priceChangePercentage7DInCurrency,
+                                  .priceChangePercentage7DInCurrency!["usd"],
                               himan!.marketData!
                                   .priceChangePercentage7DInCurrency!["usd"]
                                   .toString()
@@ -653,7 +689,8 @@ class _CoinSelectState extends State<CoinSelect> {
                           : showSelectedPrice == "14D"
                               ? dateAmar(
                                   himan!.marketData!
-                                      .priceChangePercentage14DInCurrency,
+                                          .priceChangePercentage14DInCurrency![
+                                      "usd"],
                                   himan!
                                       .marketData!
                                       .priceChangePercentage14DInCurrency![
@@ -669,7 +706,8 @@ class _CoinSelectState extends State<CoinSelect> {
                               : showSelectedPrice == "30D"
                                   ? dateAmar(
                                       himan!.marketData!
-                                          .priceChangePercentage30DInCurrency,
+                                              .priceChangePercentage30DInCurrency![
+                                          "usd"],
                                       himan!
                                           .marketData!
                                           .priceChangePercentage30DInCurrency![
@@ -685,7 +723,8 @@ class _CoinSelectState extends State<CoinSelect> {
                                   : showSelectedPrice == "60D"
                                       ? dateAmar(
                                           himan!.marketData!
-                                              .priceChangePercentage60DInCurrency,
+                                                  .priceChangePercentage60DInCurrency![
+                                              "usd"],
                                           himan!
                                               .marketData!
                                               .priceChangePercentage60DInCurrency![
@@ -701,7 +740,8 @@ class _CoinSelectState extends State<CoinSelect> {
                                       : showSelectedPrice == "200D"
                                           ? dateAmar(
                                               himan!.marketData!
-                                                  .priceChangePercentage200DInCurrency,
+                                                      .priceChangePercentage200DInCurrency![
+                                                  "usd"],
                                               himan!
                                                   .marketData!
                                                   .priceChangePercentage200DInCurrency![
@@ -717,7 +757,8 @@ class _CoinSelectState extends State<CoinSelect> {
                                           : showSelectedPrice == "1Y"
                                               ? dateAmar(
                                                   himan!.marketData!
-                                                      .priceChangePercentage1YInCurrency,
+                                                          .priceChangePercentage1YInCurrency![
+                                                      "usd"],
                                                   himan!
                                                       .marketData!
                                                       .priceChangePercentage1YInCurrency![
